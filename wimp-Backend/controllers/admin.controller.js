@@ -1,8 +1,8 @@
-const Admin = require('../model/Admin');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+import Admin from '../model/Admin.js';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
-const login = async (req, res) => {
+export const login = async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findOne({email})
 
@@ -26,7 +26,18 @@ const login = async (req, res) => {
     res.status(200).send({token, email: admin.email, name: admin.name});
 }
 
-module.exports = {
-    login
-}
+export const register = async (req, res) => {
+    const { email, password, name } = req.body;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(password, saltRounds);
 
+    const admin = new Admin({
+        email,
+        password: passwordHash,
+        name
+    });
+
+    const savedAdmin = await admin.save();
+
+    res.json(savedAdmin);
+}

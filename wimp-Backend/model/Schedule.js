@@ -1,12 +1,7 @@
-const mongoose = require('mongoose');
-const TeacherSchema = require('./Teacher');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const ScheduleSchema = new Schema({
-    id: {
-        type: Number,
-        required: true
-    },
     group: {
         type: String,
         required: true
@@ -16,7 +11,8 @@ const ScheduleSchema = new Schema({
         required: true
     },
     teacher: {
-        type: TeacherSchema,
+        type: Schema.Types.ObjectId,
+        ref: 'Teacher', // Reference to the 'Teacher' model
         required: true
     },
     day: {
@@ -31,4 +27,14 @@ const ScheduleSchema = new Schema({
         type: String,
         required: true
     }
-})
+});
+
+ScheduleSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    }
+});
+
+export default mongoose.models.Schedule || mongoose.model('Schedule', ScheduleSchema);

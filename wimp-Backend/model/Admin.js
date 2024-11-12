@@ -1,11 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const AdminSchema = new Schema({
-    id: {
-        type: Number,
-        required: true
-    },
     name: {
         type: String,
         required: true
@@ -19,3 +15,13 @@ const AdminSchema = new Schema({
         required: true
     }
 })
+
+AdminSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    }
+})
+
+export default mongoose.models.Admin || mongoose.model('Admin', AdminSchema);

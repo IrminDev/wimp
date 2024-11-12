@@ -1,5 +1,5 @@
-const Admin = require('../models/admin');
-const jwt = require('jsonwebtoken');
+import Admin from '../model/Admin.js';
+import jwt from 'jsonwebtoken';
 
 const tokenExtractor = (req, res, next) => {
     const authorization = req.get('authorization');
@@ -32,7 +32,4 @@ const userExtractor = async (req, res, next) => {
     next();
 }
 
-module.exports = {
-    tokenExtractor,
-    userExtractor
-}
+export default { tokenExtractor, userExtractor };

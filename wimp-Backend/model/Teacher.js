@@ -1,11 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const TeacherSchema = new Schema({
-    id: {
-        type: Number,
-        required: true
-    },
     name: {
         type: String,
         required: true
@@ -24,3 +20,13 @@ const TeacherSchema = new Schema({
         type: String,
     }
 })
+
+TeacherSchema.set('toJSON', {
+    transform: (document, returnedObject) => {
+        returnedObject.id = returnedObject._id.toString();
+        delete returnedObject._id;
+        delete returnedObject.__v;
+    }
+})
+
+export default mongoose.models.Teacher || mongoose.model('Teacher', TeacherSchema);
