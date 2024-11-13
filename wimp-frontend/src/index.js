@@ -13,7 +13,7 @@ root.render(
     <Router>
         <Routes>
             <Route path="/" element={<App />} />
-            <Route path="/teacher" element={<Teacher />} />
+            <Route path="/teacher/:id" element={<Teacher />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/admin/add" element={<AddScheduleForm />} />

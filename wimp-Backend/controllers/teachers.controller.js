@@ -8,20 +8,20 @@ export const getTeachers = async (req, res) => {
 
 export const getTeacher = async (req, res) => {
     const { id } = req.params;
-    const teacher = await Teacher.findOne({ id });
+    const teacher = await Teacher.findById(id);
     res.json(teacher);
 }
 
 export const getTeacherSchedule = async (req, res) => {
     const { id } = req.params;
-    const teacher = await Teacher.findOne({ id });
+    const teacher = await Teacher.findById(id);
     const schedule = await Schedule.find({ 'teacher.id': teacher.id });
     res.json(schedule);
 }
 
 export const createTeacher = async (req, res) => {
-    const { id, name, email, cubicle, department, phone } = req.body;
-    const teacher = new Teacher({ id, name, email, cubicle, department, phone });
+    const { name, email, cubicle, department, phone } = req.body;
+    const teacher = new Teacher({ name, email, cubicle, department, phone });
     await teacher.save();
     res.json(teacher);
 }
