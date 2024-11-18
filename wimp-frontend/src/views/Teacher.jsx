@@ -10,24 +10,22 @@ const ProfessorPage = () => {
   const [schedule, setSchedule] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Horas del horario (7:00 AM a 9:30 PM)
-  const hours = Array.from({ length: 15 }, (_, i) => ({
-    time: `${7 + Math.floor(i / 2)}:${i % 2 === 0 ? '00' : '30'} ${7 + Math.floor(i / 2) < 12 ? 'AM' : 'PM'}`,
-  }));
+  // Horas del horario
+  const hours = [
+    '7:00 - 8:30', '8:30 - 10:00', '10:30 - 12:00', '12:00 - 13:30',
+    '13:30 - 15:00', '15:00 - 16:30', '16:30 - 18:00', '18:30 - 20:00', '20:00 - 21:30'
+  ];
 
   // Días de la semana
   const days = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"];
 
   useEffect(() => {
-    // Cargar la información del profesor y su horario
     const fetchData = async () => {
       try {
         const professorData = await teacherService.getTeacherById(id);
         const scheduleData = await scheduleService.getScheduleByTeacher(id);
         setProfessor(professorData);
-        console.log(professorData);
         setSchedule(scheduleData);
-        console.log(scheduleData);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -57,14 +55,14 @@ const ProfessorPage = () => {
           <div className="overflow-x-auto">
             <div className="flex">
               {/* Columna de Horarios */}
-              <div className="flex flex-col w-24">
+              <div className="flex flex-col w-32">
                 <div className="font-bold text-center p-2 bg-violet-600 text-white">Hora</div>
                 {hours.map((hour, index) => (
                   <div
                     key={index}
                     className={`p-2 text-center ${index % 2 === 0 ? 'bg-violet-100' : 'bg-white'}`}
                   >
-                    {hour.time}
+                    {hour}
                   </div>
                 ))}
               </div>
@@ -78,8 +76,7 @@ const ProfessorPage = () => {
                   {hours.map((hour, hourIndex) => {
                     // Buscar en el horario si el profesor tiene una clase en el día y hora actuales
                     const slot = schedule.find((entry) => 
-                      entry.day === day &&
-                      entry.startTime === hour.time // Compara el tiempo exacto
+                      entry.day === day && entry.hour === hour
                     );
 
                     return (
@@ -87,7 +84,7 @@ const ProfessorPage = () => {
                         key={hourIndex}
                         className={`p-2 text-center border-l ${hourIndex % 2 === 0 ? 'bg-violet-100' : 'bg-white'}`}
                       >
-                        {slot ? slot.room : '-'}
+                        {slot ? slot.classroom : '-'}
                       </div>
                     );
                   })}

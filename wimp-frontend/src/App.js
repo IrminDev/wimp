@@ -17,6 +17,7 @@ function App() {
             .then(data => {
                 setProfessors(data);
                 setFilteredProfessors(data); // Inicializamos con todos los profesores
+                console.log(data);
             })
             .catch(err => {
                 console.log(err);
@@ -24,18 +25,23 @@ function App() {
     }, []);
 
     useEffect(() => {
-        // Filtramos los profesores según el término de búsqueda
-        const filtered = professors.filter(professor =>
-            professor.name.toLowerCase().includes(search.toLowerCase())
-        );
-        setFilteredProfessors(filtered);
-        setCurrentPage(1); // Reiniciamos la página actual al cambiar la búsqueda
+        try {
+            const filtered = professors.filter((professor) => {
+                return professor.name.toLowerCase().includes(search.toLowerCase());
+            });
+
+            setFilteredProfessors(filtered);
+        } catch (error) {   
+            console.log(error);
+        }
     }, [search, professors]);
 
     const resultsPerPage = 10;
     const indexOfLastResult = currentPage * resultsPerPage;
     const indexOfFirstResult = indexOfLastResult - resultsPerPage;
     const currentProfessors = filteredProfessors.slice(indexOfFirstResult, indexOfLastResult);
+
+    console.log(currentProfessors);
 
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -72,18 +78,14 @@ function App() {
                 <SearchBar onSearch={handleSearch} />
 
                 <div className="flex flex-col mt-10 px-5 w-full py-5 items-center justify-start border-2">
-                    {currentProfessors.map((professor) => (
+                {Array.isArray(currentProfessors) ? (
+                    currentProfessors.map((professor) => (
                         <ProfessorInfo key={professor.id} professor={professor} />
-                    ))}
-
-                    <div className="w-full mt-5">
-                        <PaginationBar
-                            currentPage={currentPage}
-                            totalPages={Math.ceil(filteredProfessors.length / resultsPerPage)}
-                            onPageChange={handlePageChange}
-                        />
-                    </div>
-                </div>
+                    ))
+                ) : (
+                    <p>No hay datos disponibles</p>
+                )}
+            </div>
             </div>
         </div>
     );

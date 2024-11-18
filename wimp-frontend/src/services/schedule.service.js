@@ -1,5 +1,5 @@
 import axios from "axios";
-const URL = "http://localhost:5000/api/schedule";
+const URL = "/api/schedule";
 
 const getSchedules = async () => {
     const response = await axios.get(URL);

@@ -15,7 +15,7 @@ const AdminHeader = () => {
                 {/* Navigation Links */}
                 <nav className="flex space-x-8 text-lg font-medium text-white">
                     <Link to="/" className="hover:text-violet-100">Home</Link>
-                    <Link to="/admin/dashboard" className="hover:text-violet-100">Dashboard</Link>
+                    <Link to="/admin/" className="hover:text-violet-100">Dashboard</Link>
                     <Link to="/admin/add" className="hover:text-violet-100">Add</Link>
                 </nav>
             </div>

@@ -2,45 +2,81 @@ import Teacher from '../model/Teacher.js';
 import Schedule from '../model/Schedule.js';
 
 export const getTeachers = async (req, res) => {
-    const teachers = await Teacher.find({});
-    res.json(teachers);
-}
+    try {
+        const teachers = await Teacher.find({});
+        res.json(teachers);
+    } catch (error) {
+        console.error('Error fetching teachers:', error);
+        res.status(500).json({ message: 'Error fetching teachers.' });
+    }
+};
 
 export const getTeacher = async (req, res) => {
-    const { id } = req.params;
-    const teacher = await Teacher.findById(id);
-    res.json(teacher);
-}
+    try {
+        const { id } = req.params;
+        const teacher = await Teacher.findById(id);
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found.' });
+        }
+        res.json(teacher);
+    } catch (error) {
+        console.error('Error fetching teacher:', error);
+        res.status(500).json({ message: 'Error fetching teacher.' });
+    }
+};
 
 export const getTeacherSchedule = async (req, res) => {
-    const { id } = req.params;
-    const teacher = await Teacher.findById(id);
-    const schedule = await Schedule.find({ 'teacher.id': teacher.id });
-    res.json(schedule);
-}
+    try {
+        const { id } = req.params;
+        const teacher = await Teacher.findById(id);
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found.' });
+        }
+        const schedule = await Schedule.find({ teacher: teacher._id });
+        res.json(schedule);
+    } catch (error) {
+        console.error('Error fetching teacher schedule:', error);
+        res.status(500).json({ message: 'Error fetching teacher schedule.' });
+    }
+};
 
 export const createTeacher = async (req, res) => {
-    const { name, email, cubicle, department, phone } = req.body;
-    const teacher = new Teacher({ name, email, cubicle, department, phone });
-    await teacher.save();
-    res.json(teacher);
-}
+    try {
+        const { name, email, cubicle, department, phone } = req.body;
+        const teacher = new Teacher({ name, email, cubicle, department, phone });
+        await teacher.save();
+        res.status(201).json(teacher);
+    } catch (error) {
+        console.error('Error creating teacher:', error);
+        res.status(400).json({ message: 'Error creating teacher.', error: error.message });
+    }
+};
 
 export const updateTeacher = async (req, res) => {
-    const { id } = req.params;
-    const { name, email, cubicle, department, phone } = req.body;
-    const teacher = await Teacher.findOne({ id });
-    teacher.name = name;
-    teacher.email = email;
-    teacher.cubicle = cubicle;
-    teacher.department = department;
-    teacher.phone = phone;
-    await teacher.save();
-    res.json(teacher);
-}
+    try {
+        const { id } = req.params;
+        const { name, email, cubicle, department, phone } = req.body;
+        const teacher = await Teacher.findByIdAndUpdate(id, { name, email, cubicle, department, phone }, { new: true });
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found.' });
+        }
+        res.json(teacher);
+    } catch (error) {
+        console.error('Error updating teacher:', error);
+        res.status(400).json({ message: 'Error updating teacher.', error: error.message });
+    }
+};
 
 export const deleteTeacher = async (req, res) => {
-    const { id } = req.params;
-    await Teacher.deleteOne({ id });
-    res.json({ message: 'Teacher deleted' });
-}
+    try {
+        const { id } = req.params;
+        const teacher = await Teacher.findByIdAndDelete(id);
+        if (!teacher) {
+            return res.status(404).json({ message: 'Teacher not found.' });
+        }
+        res.json({ message: 'Teacher deleted successfully.' });
+    } catch (error) {
+        console.error('Error deleting teacher:', error);
+        res.status(500).json({ message: 'Error deleting teacher.' });
+    }
+};

@@ -20,11 +20,6 @@ const SecondHeader = ({main}) => {
                     <ButtonLink url="/professors" label="Professors" />
                 </nav>
 
-                {/* Login Button */}
-                <div className="hidden md:block">
-                    <ButtonLink url="/login" label="Login" isPrimary />
-                </div>
-
                 {/* Mobile Menu */}
                 <div className="md:hidden">
                     <button className="text-white focus:outline-none">
