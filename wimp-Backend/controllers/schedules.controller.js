@@ -6,7 +6,7 @@ export const getSchedules = async (req, res) => {
         res.json(schedules);
     } catch (error) {
         console.error('Error fetching schedules:', error);
-        res.status(500).json({ message: 'Error fetching schedules.' });
+        res.status(500).json({ message: error });
     }
 };
 
@@ -14,13 +14,10 @@ export const getScheduleByTeacher = async (req, res) => {
     try {
         const { teacher } = req.params;
         const schedule = await Schedule.find({ teacher });
-        if (schedule.length === 0) {
-            return res.status(404).json({ message: 'No schedules found for the specified teacher.' });
-        }
         res.json(schedule);
     } catch (error) {
         console.error('Error fetching schedule by teacher:', error);
-        res.status(500).json({ message: 'Error fetching schedule by teacher.' });
+        res.status(500).json({ message: error });
     }
 };
 
@@ -34,7 +31,7 @@ export const getScheduleByGroup = async (req, res) => {
         res.json(schedule);
     } catch (error) {
         console.error('Error fetching schedule by group:', error);
-        res.status(500).json({ message: 'Error fetching schedule by group.' });
+        res.status(500).json({ message: error });
     }
 };
 

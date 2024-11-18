@@ -40,9 +40,11 @@ const ProfessorPage = () => {
     <div>
       <SecondHeader />
 
-      <div className="min-h-screen bg-violet-100 flex flex-col items-center py-10">
+      <div className="min-h-screen bg-violet-100 flex flex-col items-center py-10 px-4">
         <div className="w-full max-w-5xl p-6 bg-white shadow-md rounded-lg">
-          <h1 className="text-3xl font-bold text-violet-600 mb-4">Información del profesor</h1>
+          <h1 className="text-3xl font-bold text-violet-600 mb-4 text-center lg:text-left">
+            Información del profesor
+          </h1>
           <div className="text-gray-700 mb-6">
             <p><span className="font-semibold">Nombre:</span> {professor.name}</p>
             <p><span className="font-semibold">Cubículo:</span> {professor.cubicle}</p>
@@ -50,12 +52,14 @@ const ProfessorPage = () => {
             <p><span className="font-semibold">Teléfono:</span> {professor.phone}</p>
           </div>
 
-          <h2 className="text-2xl font-bold text-violet-600 mt-8 mb-4">Horario</h2>
-          
-          <div className="overflow-x-auto">
+          <h2 className="text-2xl font-bold text-violet-600 mt-8 mb-4 text-center lg:text-left">
+            Horario
+          </h2>
+
+          <div className="overflow-x-auto max-w-full">
             <div className="flex">
               {/* Columna de Horarios */}
-              <div className="flex flex-col w-32">
+              <div className="flex flex-col w-32 flex-shrink-0">
                 <div className="font-bold text-center p-2 bg-violet-600 text-white">Hora</div>
                 {hours.map((hour, index) => (
                   <div
@@ -69,7 +73,7 @@ const ProfessorPage = () => {
 
               {/* Columnas de Días de la Semana */}
               {days.map((day, dayIndex) => (
-                <div key={dayIndex} className="flex flex-col flex-1">
+                <div key={dayIndex} className="flex flex-col flex-1 min-w-[120px]">
                   <div className="font-bold text-center p-2 bg-violet-600 text-white">
                     {day}
                   </div>

@@ -7,7 +7,7 @@ export const getTeachers = async (req, res) => {
         res.json(teachers);
     } catch (error) {
         console.error('Error fetching teachers:', error);
-        res.status(500).json({ message: 'Error fetching teachers.' });
+        res.status(500).json({ message: error});
     }
 };
 
@@ -21,7 +21,8 @@ export const getTeacher = async (req, res) => {
         res.json(teacher);
     } catch (error) {
         console.error('Error fetching teacher:', error);
-        res.status(500).json({ message: 'Error fetching teacher.' });
+        res.status(500).json({ message: error});
+
     }
 };
 
@@ -36,7 +37,8 @@ export const getTeacherSchedule = async (req, res) => {
         res.json(schedule);
     } catch (error) {
         console.error('Error fetching teacher schedule:', error);
-        res.status(500).json({ message: 'Error fetching teacher schedule.' });
+        res.status(500).json({ message: error});
+
     }
 };
 
@@ -48,7 +50,8 @@ export const createTeacher = async (req, res) => {
         res.status(201).json(teacher);
     } catch (error) {
         console.error('Error creating teacher:', error);
-        res.status(400).json({ message: 'Error creating teacher.', error: error.message });
+        res.status(500).json({ message: error});
+
     }
 };
 
@@ -63,7 +66,8 @@ export const updateTeacher = async (req, res) => {
         res.json(teacher);
     } catch (error) {
         console.error('Error updating teacher:', error);
-        res.status(400).json({ message: 'Error updating teacher.', error: error.message });
+        res.status(500).json({ message: error});
+
     }
 };
 
@@ -77,6 +81,7 @@ export const deleteTeacher = async (req, res) => {
         res.json({ message: 'Teacher deleted successfully.' });
     } catch (error) {
         console.error('Error deleting teacher:', error);
-        res.status(500).json({ message: 'Error deleting teacher.' });
+        res.status(500).json({ message: error});
+
     }
 };

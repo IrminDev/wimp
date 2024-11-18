@@ -27,7 +27,7 @@ export const login = async (req, res) => {
         res.status(200).send({ token, email: admin.email, name: admin.name });
     } catch (error) {
         console.error('Error during login:', error);
-        res.status(500).json({ error: 'An error occurred during login' });
+        res.status(500).json({ message: error});
     }
 };
 
@@ -53,7 +53,8 @@ export const register = async (req, res) => {
         res.status(201).json(savedAdmin);
     } catch (error) {
         console.error('Error during registration:', error);
-        res.status(500).json({ error: 'An error occurred during registration' });
+        res.status(500).json({ message: error});
+
     }
 };
 
@@ -77,6 +78,6 @@ export const verifyToken = (req, res) => {
             return res.status(401).json({ error: 'Token expired' });
         }
 
-        res.status(500).json({ error: 'An error occurred during token verification' });
+        res.status(500).json({ message: error});
     }
 };
